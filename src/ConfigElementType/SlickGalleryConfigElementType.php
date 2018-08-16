@@ -43,8 +43,10 @@ class SlickGalleryConfigElementType implements ConfigElementType
 
         /** @var FilesModel $filesModel */
         $filesModel = $this->framework->getAdapter(FilesModel::class);
+        
+        $imageSrc = $readerConfigElement->orderField ? $item->getRawValue($readerConfigElement->orderField) : $item->getRawValue($readerConfigElement->orderField);
 
-        $images = StringUtil::deserialize($item->getRawValue($readerConfigElement->imageField), true);
+        $images = StringUtil::deserialize($imageSrc, true);
 
         if (empty($images)) {
             return;
@@ -86,6 +88,15 @@ class SlickGalleryConfigElementType implements ConfigElementType
             'dataAttributes' => System::getContainer()->get('huh.slick.config')->getAttributesFromModel($config)
         ];
 
+//        $gallery = '<div class="slick-container slick-slider" '.$galleries[$imageField]['dataAttributes'].'>';
+//        foreach($galleries[$imageField]['images'] as $image)
+//        {
+//            $gallery .= '<div class="slick-slide"><img src="'.$image['src'].'" ></div>';
+//        }
+//
+//        $gallery .= '</div>';
+        
+        
         $item->setFormattedValue('slickGalleries', $galleries);
     }
 
